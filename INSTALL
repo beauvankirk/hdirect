@@ -1,29 +1,6 @@
 ** Building and installing HaskellDirect
 
-1. Unpack the source distribution somewhere convenient
-   and edit 'config.mk' at the top of the distribution.
-   You'll need to supply the following:
-
-     - HC -- the Haskell compiler to use [default: 'ghc']
-
-2. Run 'make boot' from the toplevel HaskellDirect directory,
-   followed by 'make'  (where 'make' == GNU make.)
-
-3. Upon completion, run 'make lib' from the toplevel, which'll
-   compile up the support libraries for both Hugs98 and GHC.
-   
-4. Assuming the last two steps completed successfully,
-   that's it - you're now set to start using the IDL compiler.
-
-   The examples/ directory contains, as you've probably guessed,
-   some examples. See examples/README for overview of what the
-   individual examples do.
-
-   For the examples that work with both Hugs and GHC, you will
-   need to invoke "make" as follows to build the Hugs version
-   of the example
-
-            make FOR_HUGS=YES
+- cabal install hcom (for the support libraries)
 
 Extra goodies:
  

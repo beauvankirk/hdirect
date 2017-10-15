@@ -56,9 +56,11 @@ Executable hdirect
     Main-Is:            Main.lhs
     ghc-options:        -Wno-missing-signatures
     build-tools:        happy
+    default-extensions:  CPP
     build-depends:      base >= 2 && < 5,
                         pretty,
                         array,
+                        hcom,
                         time,
                         old-locale,
                         old-time,
