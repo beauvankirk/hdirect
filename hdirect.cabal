@@ -54,24 +54,17 @@ source-repository head
 Executable hdirect
     hs-source-dirs:  src
     Main-Is:            Main.lhs
-    ghc-options:        -Wall
+    ghc-options:        -Wno-missing-signatures
     build-tools:        happy
     build-depends:      base >= 2 && < 5,
                         pretty,
                         array,
                         time,
                         old-locale,
-                        old-time
-
-library
-    hs-source-dirs:  src
-    build-tools:        happy
-    build-depends:      base >= 2 && < 5,
-                        pretty,
-                        array,
+                        old-time,
                         process
 
-    exposed-modules:
+    other-modules:
         AbsHUtils
         AbstractH
         Attribute
