@@ -19,6 +19,7 @@ module LibUtils
         , maybe_module
         , autoLib
         , ioExts
+        , ioUnsafe
         , intLib
         , wordLib
 --      , addrLib
@@ -272,33 +273,34 @@ generating imports from:
 
 \begin{code}
 hdirectLib, bitsLib, comLib, comServLib, listLib, ptrLib, foreignPtrLib :: Maybe String
-hdirectLib = Just "HDirect"
-bitsLib = Just "Bits"
-comLib  = Just "Com"
-comServLib  = Just "ComServ"
-listLib = Just "List"
+hdirectLib = Just "System.Win32.Com.HDirect.HDirect"
+bitsLib = Just "Data.Bits"
+comLib  = Just "System.Win32.Com"
+comServLib  = Just "System.Win32.Com.Server"
+listLib = Just "Data.List"
 ptrLib  = Just "Foreign.Ptr"
 foreignPtrLib = Just "Foreign.ForeignPtr"
 
 comDll, prelude, prelGHC, maybe_module, autoLib, ioExts :: Maybe String
-comDll  = Just "ComDll"
+comDll  = Just "System.Win32.Com.Dll"
 prelude = Just "Prelude"
 prelGHC = Just "PrelGHC"
-maybe_module = Just "Maybe"
-autoLib = Just "Automation"
-ioExts  = Just "System.IO"
+maybe_module = Just "Data.Maybe"
+autoLib = Just "System.Win32.Com.Automation"
+ioExts  = Just "Data.IORef"
+ioUnsafe = Just "System.IO.Unsafe"
 
 intLib, wordLib, foreignLib, arrayLib :: Maybe String
-intLib  = Just "Int"
-wordLib = Just "Word"
+intLib  = Just "Data.Int"
+wordLib = Just "Data.Word"
 --addrLib = Just "Addr"
 foreignLib = Just "Foreign"
-arrayLib   = Just "Array"
+arrayLib   = Just "Data.Array"
 
 stdDispatchLib, wStringLib, jniLib, orbLib, safeArrayLib :: Maybe String
 stdDispatchLib = Just "StdDispatch"
-wStringLib = Just "WideString"
-safeArrayLib = Just "SafeArray"
+wStringLib = Just "System.Win32.HDirect.WideString"
+safeArrayLib = Just "System.Win32.Com.Automation.SafeArray"
 
 jniLib = Just "JNI"
 orbLib = Just "Corba"
@@ -538,7 +540,7 @@ true          = mkQualName prelude "True"
 false         = mkQualName prelude "False"
 
 uPerformIO :: QualName
-uPerformIO    = mkQualName ioExts  "unsafePerformIO"
+uPerformIO    = mkQualName ioUnsafe "unsafePerformIO"
 
 mkWString :: QualName
 mkWString     = mkQualName wStringLib "mkWideString"

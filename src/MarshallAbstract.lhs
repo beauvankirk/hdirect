@@ -174,7 +174,7 @@ marshallAbstract i = do
     l_def    = funDef l_name [varPat v] l_rhs
     l_rhs
       | isFinalised =
-        funApp (mkQVarName ioExts "unsafePerformIO")
+        funApp (mkQVarName ioUnsafe "unsafePerformIO")
            [bind (funApp mkForeignObj [castPtr v, var finaliser]) v $
             ret (dataCon (mkConName con_name) [v])]
       | otherwise =

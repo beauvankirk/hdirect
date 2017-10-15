@@ -75,6 +75,7 @@ import LibUtils ( comLib
                 , iDispatch
                 , iUnknown
                 , ioExts
+                , ioUnsafe
                 , outPrefix
                 , autoLib
                 , allocBytes
@@ -420,7 +421,7 @@ mkMethod iface mname inh hasIso objFlag isIEnum isServer
    meth_result = mkResult results
 
    unsafeWrap e
-      | isPure    = funApp (mkQVarName ioExts "unsafePerformIO") [e]
+      | isPure    = funApp (mkQVarName ioUnsafe "unsafePerformIO") [e]
       | otherwise = e
 
    m_rhs       =
