@@ -18,6 +18,7 @@ import Data.IORef
 import System.IO.Unsafe
 import System.CPUTime
 import System.Environment ( getEnv )
+import System.IO.Error
 import Control.Exception
 import System.Process     ( system )
 import Opts    ( optDebug, optCpp, optinclude_cppdirs, optcpp_defines )
@@ -44,7 +45,7 @@ preProcessFile fname
 --  tmp <- catch (getEnv "TMPDIR") 
 --               (\ _ -> return "/tmp/")
   tmp <- getEnv "TMPDIR" 
-                `onException` return "/tmp/"
+                `onDoesNotExist` return "/tmp/"
   let tmpnam = prefixDir tmp ("ihc" ++ show pt ++ show v)
   let
       tmpnam1 = tmpnam ++ ".c"
@@ -71,7 +72,7 @@ preProcessFile fname
 --  cpp <- catch (getEnv "CPP")
 --               (\ _ -> return ("gcc -E -x c"))
   cpp <- getEnv "CPP"
-                `onException` return ("gcc -E -x c")
+                `onDoesNotExist` return ("gcc -E -x c")
   hdl <- openFile tmpnam1 WriteMode
   hPutStrLn hdl oput
   hClose hdl
@@ -86,15 +87,17 @@ removeTmp = do
 --  tmp <- catch (getEnv "TMPDIR")
 --               ( \ _ -> return "/tmp/")
   tmp <- getEnv "TMPDIR"
-                `onException` return "/tmp/"
+                `onDoesNotExist` return "/tmp/"
   let tmpnam = prefixDir tmp ("ihc" ++ show pt ++ "*")
 --  del_cmd <- catch (getEnv "DELPROG")
 --                   ( \ _ -> return "rm -f")
   del_cmd <- getEnv "DELPROG"
-                    `onException` return "rm -f"
+                    `onDoesNotExist` return "rm -f"
   let cmd    = del_cmd ++ ' ':tmpnam
   when optDebug (hPutStrLn stderr ("Clearing out temporary files: " ++ cmd))
   system cmd
   return ()
 
+onDoesNotExist :: IO a -> IO a -> IO a
+onDoesNotExist action fallback = handleJust (guard . isDoesNotExistError) (const fallback) action
 \end{code}
