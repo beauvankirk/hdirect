@@ -15,28 +15,19 @@ module ImportLib
         (
          importLib
         ) where
-        
+
 import IDLSyn
 
-{- BEGIN_NOT_SUPPORT_TYPELIBS -}
+#ifndef SUPPORT_TYPELIBS
 importLib :: String -> IO Defn
 importLib nm = return (Pragma ("importLib: type library reader not compiled in. " ++ nm))
-{- END_NOT_SUPPORT_TYPELIBS -}
-
-{- BEGIN_SUPPORT_TYPELIBS 
--- to the end of the file.
-import 
-       HDirect
-import 
-       Com         hiding (GUID)
-import
-       qualified Com ( GUID )
-import
-       ComPrim     ( lOCALE_USER_DEFAULT )
-import 
-       Automation  hiding (GUID,DISPID, Member)
-import 
-       TypeLib
+#else
+import System.Win32.HDirect.HDirect
+import System.Win32.Com         hiding (GUID)
+import qualified System.Win32.Com ( GUID )
+import System.Win32.Com.Base    ( lOCALE_USER_DEFAULT )
+import System.Win32.Com.Automation  hiding (GUID,DISPID, Member)
+import TypeLib
 
 import BasicTypes
 import Literal
@@ -44,13 +35,13 @@ import Opts
 import IDLUtils hiding ( noAttrs )
 import Utils ( notNull )
 import Foreign.Ptr
-{-
+
 #ifdef DEBUG
--}
+
 import PpIDLSyn ( showIDL, ppType )
-{-
+
 #endif
--}
+
 import System.IO
 import Data.Word ( Word32 )
 import Data.Int
@@ -1349,6 +1340,5 @@ isDual typeAttr = dualBitSet (wTypeFlags typeAttr)
 
 dualBitSet :: Word16 -> Bool
 dualBitSet v = v .&. 0x40 == 0x40
-
-  END_SUPPORT_TYPELIBS -}
+#endif
 \end{code}

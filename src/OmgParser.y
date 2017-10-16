@@ -18,11 +18,7 @@ import IDLToken
 import IDLSyn
 import BasicTypes
 import Literal
-{-
-BEGIN_GHC_ONLY
-import GlaExts
-END_GHC_ONLY
--}
+import GHC.Exts
 }
 
 %name parseIDL

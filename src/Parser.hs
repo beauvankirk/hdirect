@@ -1,4 +1,3 @@
-{-# OPTIONS -fglasgow-exts -cpp #-}
 -- parser produced by Happy Version 1.13
 
 {-
@@ -32,16 +31,8 @@ import IDLUtils ( mkFunId, mkMethodId, toCConvAttrib,
 import BasicTypes
 import Literal
 import System.IO ( hPutStrLn, stderr )
-{-
-BEGIN_GHC_ONLY
-import GlaExts
-END_GHC_ONLY
--}
-#if __GLASGOW_HASKELL__ >= 503
+
 import GHC.Exts
-#else
-import GlaExts
-#endif
 
 data HappyAbsSyn 
         = HappyTerminal IDLToken

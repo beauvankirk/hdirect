@@ -55,9 +55,9 @@ import Data.Maybe ( fromMaybe )
 import Opts  ( optNoQualNames, optIntIsInt )
 import Utils ( mapMb )
 import Data.Int
-{- BEGIN_GHC_ONLY
-import GlaExts
-   END_GHC_ONLY -}
+
+import GHC.Exts
+
 \end{code}
 
 \begin{code}

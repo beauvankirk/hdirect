@@ -48,21 +48,16 @@ import Env ( newEnv, addListToEnv_C )
 import Control.Exception
 import System.Time
 
+#ifdef TYPELIBS
+import TLBWriter
+import ImportLib
+import Com   ( coRun )
+#endif
 
-{- BEGIN_SUPPORT_TYPELIBS
-import 
-       TLBWriter
-import 
-       ImportLib
-import 
-       Com   ( coRun )
-   END_SUPPORT_TYPELIBS -}
-{- BEGIN_USE_REGISTRY
-import 
-       Win32Registry  ( hKEY_LOCAL_MACHINE, regQueryValue, regOpenKeyEx, kEY_READ )
-import 
-       StdDIS         ( MbString )
-   END_USE_REGISTRY -}
+#ifdef USE_REGISTRY
+import Win32Registry  ( hKEY_LOCAL_MACHINE, regQueryValue, regOpenKeyEx, kEY_READ )
+import StdDIS         ( MbString )
+#endif
 \end{code}
 
 \begin{code}
@@ -71,9 +66,9 @@ main
  | optVersion  = putStrLn version_msg
  | optHelp     = do { pgm <- getProgName ; putStrLn (usage_msg pgm) }
  | otherwise   = do
-{- BEGIN_SUPPORT_TYPELIBS
+#ifdef SUPPORT_TYPELIBS
    coRun $ do   
-   END_SUPPORT_TYPELIBS -}
+#endif
     file <- getInpFile
     case file of 
       Nothing     -> do { pgm <- getProgName ; putStrLn (usage_msg pgm) }
@@ -97,16 +92,14 @@ main
                sequence (map (\ f -> processFile incls f (oFileFun f)) fnames)
                return ()
               else do
-{- BEGIN_SUPPORT_TYPELIBS
+#ifdef SUPPORT_TYPELIBS
                 ds <- mapM (importLib) fnames
                 let inp = Right ds
-   END_SUPPORT_TYPELIBS -}
-
-{- BEGIN_NOT_SUPPORT_TYPELIBS -}
+#else
                 let src     = unlines $ map (\ x -> "importlib(" ++ show x ++ ");") fnames
                     inp     = Left src
                 hPutStrLn stderr "WARNING: Type library reading code not compiled in; Ignoring --tlb option"
-{- END_NOT_SUPPORT_TYPELIBS -}
+#endif
                 let o_fnm   = oFile  (head fnames)
                     o_modnm = oModNm (head fnames)
                 processSource incls "<typelib>" inp (o_fnm, o_modnm)
@@ -217,12 +210,11 @@ processSource path fname ls ofname = do
   dumpPass dumpRenamer "Renamed Core IDL" rs
   
   when (optOutputTlb || notNull optOutputTlbTo) 
-{- BEGIN_SUPPORT_TYPELIBS
+#ifdef SUPPORT_TYPELIBS
        (coRun $ writeTLB optOutputTlbTo renamed_decls)
-   END_SUPPORT_TYPELIBS -}
-{- BEGIN_NOT_SUPPORT_TYPELIBS -}
+#else
        (hPutStrLn stderr "WARNING: type library handling code not compiled in; ignoring --output-tlb= option")
-{- END_NOT_SUPPORT_TYPELIBS   -}
+#endif
   when optShowPasses (showPassMsg "CodeGen")
   let (header, code) = codeGen ofname iso_env iface_env renamed_decls
       code_str       = unlines (map showCode code)

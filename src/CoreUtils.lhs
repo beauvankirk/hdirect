@@ -217,10 +217,7 @@ import Env
 import Data.Int
 import Data.List
 import Data.Bits
-{- BEGIN_GHC_ONLY
-import GlaExts
-   END_GHC_ONLY -}
-        
+
 \end{code}
 
 \begin{code}
@@ -1243,11 +1240,11 @@ data DepVal
 data Dependent = Dep DepReason [DepVal] -- a list, since the id might be multi-dimensional.
                   deriving ( Show )
 
-{- BEGIN_GHC_ONLY
+
 -- For Hugs users, this instance will conflict with the one in CoreIDL.
 instance Show Expr where
   show x = showCore (ppExpr x)
-  END_GHC_ONLY -}
+
 \end{code}
 
 \begin{code}

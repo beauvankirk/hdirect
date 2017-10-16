@@ -54,9 +54,9 @@ import Data.Char (chr, ord, readLitChar)
 import System.IO
 -- import IO
 import Data.Int
-{- BEGIN_GHC_ONLY
-import Directory
-   END_GHC_ONLY -}
+
+import System.Directory
+
 import Control.Monad ( when )
 import Data.List  ( mapAccumL, isPrefixOf )
 import Debug.Trace
@@ -274,14 +274,9 @@ Try reading a file:
 mbOpenFile :: Bool -> FilePath -> IO (Maybe FilePath)
 mbOpenFile verbose fpath = do
    -- I seem to remember that Hugs doesn't support Directory...
-{- BEGIN_GHC_ONLY
+
   flg <- doesFileExist fpath
-  END_GHC_ONLY -}
-{- BEGIN_NOT_FOR_GHC -}
-  flg <- (openFile fpath ReadMode >>= \ h -> hClose h >> return True)
-        --  `catch` (\ _ -> return False)
-            `onException` return False
-{- END_NOT_FOR_GHC -}
+
   if not flg 
    then return Nothing
    else do

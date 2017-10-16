@@ -691,9 +691,9 @@ mbAutoTypeToHaskellTy pkind ty =
    (Name "HRESULT" _ _ _ _ _)  -> Just $ mkTyConst $ mkQualName comLib "HRESULT"
    (Name "VARIANT_BOOL" _ _ _ _ _) -> Just $ mkTyConst $ mkQualName prelude "Bool"
 --   (Name "VARIANT" _ _ _ _ _)  -> Just varTy
-{- BEGIN_SUPPORT_TYPELIBS
+#ifdef SUPPORT_TYPELIBS
    (Name _ _ _ _ _ (Just ti)) | isJust (auto_vt ti) -> Just $ mkAutoTyConst (auto_type ti)
-   END_SUPPORT_TYPELIBS -}
+#endif
    (Name nm _ md _ (Just Enum{}) _) -> Just $ mkTyConst $ mkQualName md (mkHaskellTyConName nm)
    (Name _ _ _ _ (Just orig_ty) _)   -> mbAutoTypeToHaskellTy pkind orig_ty
    (Name _ _ _ _ _ (Just ti))      -> Just (mkTyConst $ haskell_type ti)

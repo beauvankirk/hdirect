@@ -21,7 +21,7 @@ import BasicTypes
 import Literal
 {-
 BEGIN_GHC_ONLY
-import GlaExts
+import GHC.Exts
 END_GHC_ONLY
 -}
 

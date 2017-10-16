@@ -16,13 +16,13 @@ import System.IO     ( hPutStrLn, stderr )
 import Control.Monad  ( when )
 import Utils  ( split, trace, notNull )
 import Version
-{- BEGIN_USE_REGISTRY
+#ifdef USE_REGISTRY
 import Utils ( bailIf, hdirect_root )
 import 
        Win32Registry  ( hKEY_LOCAL_MACHINE, regQueryValue, regOpenKeyEx, kEY_READ, regEnumKeyVals )
 import 
        StdDIS         ( MbString )
-   END_USE_REGISTRY -}
+#endif
 
 \end{code}
 
@@ -67,7 +67,7 @@ derivedArgs =
 
 autoOptions :: [String]
 autoOptions = words $
-{- BEGIN_USE_REGISTRY
+#ifdef USE_REGISTRY
   unsafePerformIO $
   catch 
     (do
@@ -80,18 +80,16 @@ autoOptions = words $
       v <- regQueryValue hk (Just "-fautomation")
       bailIf (null v) (return default_opts) (return v))
     (\ _ -> return default_opts)
- END_USE_REGISTRY -}
-{- BEGIN_NOT_USE_REGISTRY -}
+#else
  default_opts
-{- END_NOT_USE_REGISTRY -}
+#endif
   where
    default_opts = "-fno-export-list -fcom -fcoalesce-methods -fno-gen-binary-interface"
 
 registryOptions :: [(String,[String])]
-{- BEGIN_NOT_USE_REGISTRY -}
+#ifndef USE_REGISTRY
 registryOptions = []
-{- END_NOT_USE_REGISTRY   -}
-{- BEGIN_USE_REGISTRY
+#else
 registryOptions = unsafePerformIO $
   catch 
     (do
@@ -105,7 +103,7 @@ registryOptions = unsafePerformIO $
       ls <- mapM readOne vs
       return ls)
     (\ _ -> return [])
-   END_USE_REGISTRY -}
+#endif
 
 set_ihc_opts :: [String] -> IO ()
 set_ihc_opts args = writeIORef the_ihc_opts args
@@ -330,12 +328,11 @@ optODirs       = [ o | OptOutputDir o <- ihc_opts ] -- a smelly one (sorry, coul
 
 optincludedirs :: [String]
 optincludedirs = 
-{- BEGIN_SUPPORT_TYPELIBS 
+#ifdef SUPPORT_TYPELIBS
   concat [split ';' d | OptIncludeDirs d <- reverse ihc_opts]
-   END_SUPPORT_TYPELIBS -}
-{- BEGIN_NOT_SUPPORT_TYPELIBS -}
+#else
   concat [split ':' d | OptIncludeDirs d <- reverse ihc_opts]
-{- END_NOT_SUPPORT_TYPELIBS -}
+#endif
 
 optinclude_cppdirs :: [String]
 optinclude_cppdirs = 

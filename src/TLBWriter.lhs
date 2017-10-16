@@ -11,7 +11,7 @@ Generating type libraries from Core IDL.
 module TLBWriter ( writeTLB ) where
 
 import CoreIDL
-{- BEGIN_SUPPORT_TYPELIBS 
+#ifdef SUPPORT_TYPELIBS 
 -- import IO
 import BasicTypes
 import System.IO
@@ -46,16 +46,14 @@ import
 import 
        TypeLib
 import Foreign.Ptr
-  END_SUPPORT_TYPELIBS -}
+#endif
 \end{code}
 
 \begin{code}
 writeTLB :: [String] -> [Decl] -> IO ()
-{- BEGIN_NOT_SUPPORT_TYPELIBS -}
+#ifndef SUPPORT_TYPELIBS
 writeTLB _ _ = ioError (userError ("writeTLB: type library writer code not compiled in"))
-{- END_NOT_SUPPORT_TYPELIBS -}
-
-{- BEGIN_SUPPORT_TYPELIBS 
+#else
 -- to the end of the file.
 \end{code}
 
@@ -1192,5 +1190,5 @@ computeVarFlags i = wflags
 \end{code}
 
 \begin{code}
-  END_SUPPORT_TYPELIBS -}
+#endif
 \end{code}

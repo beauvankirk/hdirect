@@ -45,22 +45,38 @@ Copyright:          1998-2003 University of Glasgow and Sigbjorn Finne. 2010 Don
 Stability:          Stable
 Category:           Development
 Build-type:         Simple
-cabal-version:      >= 1.6
+cabal-version:      >= 1.10
 
 source-repository head
     type:     darcs
     location: http://code.haskell.org/~dons/code/hdirect
 
+Flag UseRegistry
+     Description: set this variable to YES if you want the IDL compiler to consult HKLM\Software\Haskell\HaskellDirect\\<version>\\Options for the default set of options to use. Rarely enabled.
+     Default: False
+     Manual: True
+
+Flag Typelibs
+      Description: enable support for type libs.
+      Default: False
+
 Executable hdirect
     hs-source-dirs:  src
     Main-Is:            Main.lhs
     ghc-options:        -Wno-missing-signatures
+    if flag(UseRegistry)
+       build-depends:       Win32
+       cpp-options: -DUSE_REGISTRY
+    if flag(Typelibs)
+       build-depends:       hcom
+       cpp-options: -DSUPPORT_TYPELIBS
+
     build-tools:        happy
     default-extensions:  CPP
     build-depends:      base >= 2 && < 5,
+                        directory >= 1.3,
                         pretty,
                         array,
-                        hcom,
                         time,
                         old-locale,
                         old-time,

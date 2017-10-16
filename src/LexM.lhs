@@ -44,6 +44,8 @@ module LexM
 
        , thenLexM
        , returnLexM
+
+       , warningMsg
        ) where
 
 import Control.Applicative
@@ -256,9 +258,9 @@ importFile fname = do
 handleImportLib :: LexM [Defn] -> String -> LexM Defn
 handleImportLib parse str
  | not optConvertImportLibs = do
-{- BEGIN_NOT_TLB_SUPPORT
+#ifndef SUPPORT_TYPELIBS
      warningMsg ("ignoring importlib("++show str ++"): Type library imports not supported")
-   END_NOT_TLB_SUPPORT -}
+#endif
      return (ImportLib str) 
  | otherwise  = slurpImports parse [str']
   where
@@ -286,4 +288,11 @@ slurpImport parse fname = do
      case mb_ls of
        Nothing -> return []
        Just ls -> invokeLexM fname ls (parse)
+\end{code}
+
+\begin{code}
+warningMsg :: String -> LexM ()
+warningMsg msg = do
+  l <- getSrcLoc
+  ioToLexM (hPutStrLn stderr (show l ++ ": warning: "++msg))
 \end{code}

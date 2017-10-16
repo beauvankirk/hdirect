@@ -30,11 +30,7 @@ import IDLUtils ( mkFunId, mkMethodId, toCConvAttrib,
 import BasicTypes
 import Literal
 import System.IO ( hPutStrLn, stderr )
-{-
-BEGIN_GHC_ONLY
-import GlaExts
-END_GHC_ONLY
--}
+import GHC.Exts
 }
 
 %name parseIDL
@@ -785,11 +781,6 @@ mkBitField nm l =
   case l of
     IntegerLit (ILit _ i) -> fromInteger i
     _ -> error ("bitfield " ++ show nm ++ " not an int.")
-
-warningMsg :: String -> LexM ()
-warningMsg msg = do
-  l <- getSrcLoc
-  ioToLexM (hPutStrLn stderr (show l ++ ": warning: "++msg))
 
 dumpErrMsg :: LexM ()
 dumpErrMsg = do

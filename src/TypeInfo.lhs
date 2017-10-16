@@ -28,10 +28,10 @@ import Data.Maybe
 import AbsHUtils
 import AbstractH ( Type )
 import LibUtils  ( comLib )
-{- BEGIN_SUPPORT_TYPELIBS
+#ifdef SUPPORT_TYPELIBS
 import
        Automation ( VARENUM(..) )
-   END_SUPPORT_TYPELIBS -}
+#endif
 
 \end{code}
 
@@ -57,9 +57,9 @@ data TypeInfo
      prim_sizeof      :: Int,
      prim_align       :: Int,
      auto_type        :: QualName,
-{- BEGIN_SUPPORT_TYPELIBS
+#ifdef SUPPORT_TYPELIBS
      auto_vt          :: Maybe VARENUM,
-   END_SUPPORT_TYPELIBS -}
+#endif
      is_pointed       :: Bool,
      finalised        :: Bool,
      attributes       :: Maybe String
@@ -97,9 +97,9 @@ iid_ti =
         , prim_size        = toQualName "Com.sizeofIID"
         , prim_sizeof      = 16
         , prim_align       = 4
-{- BEGIN_SUPPORT_TYPELIBS
+#ifdef SUPPORT_TYPELIBS
         , auto_vt          = Nothing
-   END_SUPPORT_TYPELIBS -}
+#endif
         , is_pointed       = True
         , finalised        = True
         , attributes       = Nothing
@@ -123,9 +123,9 @@ clsid_ti =
         , prim_size        = toQualName "Com.sizeofCLSID"
         , prim_sizeof      = 16
         , prim_align       = 4
-{- BEGIN_SUPPORT_TYPELIBS
+#ifdef SUPPORT_TYPELIBS
         , auto_vt          = Nothing
-   END_SUPPORT_TYPELIBS -}
+#endif
         , is_pointed       = True
         , finalised        = True
         , attributes       = Nothing
@@ -149,9 +149,9 @@ guid_ti =
         , prim_size        = toQualName "Com.sizeofGUID"
         , prim_sizeof      = 16
         , prim_align       = 4
-{- BEGIN_SUPPORT_TYPELIBS
+#ifdef SUPPORT_TYPELIBS
         , auto_vt          = Nothing
-   END_SUPPORT_TYPELIBS -}
+#endif
         , is_pointed       = True
         , finalised        = True
         , attributes       = Nothing
@@ -178,9 +178,9 @@ currency_ti =
         , prim_size        = toQualName "HDirect.sizeofInt64"
         , prim_sizeof      = lONGLONG_SIZE
         , prim_align       = lONGLONG_ALIGN_MODULUS
-{- BEGIN_SUPPORT_TYPELIBS
+#ifdef SUPPORT_TYPELIBS
         , auto_vt          = Just VT_CY
-   END_SUPPORT_TYPELIBS -}
+#endif
         , is_pointed       = False
         , finalised        = False
         , attributes       = Nothing
@@ -207,9 +207,9 @@ date_ti =
         , prim_size        = toQualName "HDirect.sizeofDouble"
         , prim_sizeof      = dOUBLE_SIZE
         , prim_align       = dOUBLE_ALIGN_MODULUS
-{- BEGIN_SUPPORT_TYPELIBS
+#ifdef SUPPORT_TYPELIBS
         , auto_vt          = Just VT_DATE
-   END_SUPPORT_TYPELIBS -}
+#endif
         , is_pointed       = False
         , finalised        = False
         , attributes       = Nothing
@@ -234,9 +234,9 @@ variant_ti
         , prim_size        = toQualName "Automation.sizeofVARIANT"
         , prim_sizeof      = 16
         , prim_align       = 8
-{- BEGIN_SUPPORT_TYPELIBS
+#ifdef SUPPORT_TYPELIBS
         , auto_vt          = Just VT_VARIANT
-   END_SUPPORT_TYPELIBS -}
+#endif
         , is_pointed       = True
         , finalised        = False
         , attributes       = Nothing
@@ -263,9 +263,9 @@ variant_ti
         , prim_size        = toQualName "Automation.sizeofVARIANT"
         , prim_sizeof      = 16
         , prim_align       = 8
-{- BEGIN_SUPPORT_TYPELIBS
+#ifdef SUPPORT_TYPELIBS
         , auto_vt          = Just VT_VARIANT
-   END_SUPPORT_TYPELIBS -}
+#endif
         , is_pointed       = True
         , finalised        = False
         , attributes       = Nothing
@@ -289,9 +289,9 @@ v_bool_ti =
         , prim_size        = toQualName "HDirect.sizeofInt16"
         , prim_sizeof      = sHORT_SIZE
         , prim_align       = sHORT_ALIGN_MODULUS
-{- BEGIN_SUPPORT_TYPELIBS
+#ifdef SUPPORT_TYPELIBS
         , auto_vt          = Nothing
-   END_SUPPORT_TYPELIBS -}
+#endif
         , is_pointed       = False
         , finalised        = False
         , attributes       = Nothing
@@ -315,9 +315,9 @@ bstr_ti =
         , prim_size        = toQualName "HDirect.sizeofPtr"
         , prim_sizeof      = dATA_PTR_SIZE
         , prim_align       = dATA_PTR_ALIGN_MODULUS
-{- BEGIN_SUPPORT_TYPELIBS
+#ifdef SUPPORT_TYPELIBS
         , auto_vt          = Just VT_BSTR
-   END_SUPPORT_TYPELIBS -}
+#endif
         , is_pointed       = False
         , finalised        = False
         , attributes       = Nothing
