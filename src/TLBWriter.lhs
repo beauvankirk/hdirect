@@ -31,21 +31,21 @@ import Utils ( safe_init, notNull )
 import TypeInfo
 
 -- tricking mkdependHS
-import 
-       HDirect
-import
-       WideString
-import 
-       Com         hiding (GUID)
-import qualified
-       Com         ( GUID )
-import 
-       Automation  hiding (GUID,DISPID, Member)
-import
-       AutoPrim    ( writeVarInt, writeVarString )
-import 
-       TypeLib
+import System.Win32.Com.HDirect.HDirect
+import System.Win32.Com.HDirect.WideString
+import System.Win32.Com         hiding (GUID)
+import System.Win32.Com.Automation  hiding (GUID,DISPID, Member)
+import System.Win32.Com.Automation.Base ( writeVarInt, writeVarString )
+import System.Win32.Com.Automation.TypeLib
+import Data.IORef
 import Foreign.Ptr
+import System.IO.Unsafe
+import qualified System.Win32.Com as Com
+import qualified Control.Exception as CE
+
+catch :: IO a -> (CE.SomeException -> IO a) -> IO a
+catch = CE.catch
+
 #endif
 \end{code}
 

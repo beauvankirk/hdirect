@@ -29,8 +29,7 @@ import AbsHUtils
 import AbstractH ( Type )
 import LibUtils  ( comLib )
 #ifdef SUPPORT_TYPELIBS
-import
-       Automation ( VARENUM(..) )
+import System.Win32.Com.Automation ( VARENUM(..) )
 #endif
 
 \end{code}

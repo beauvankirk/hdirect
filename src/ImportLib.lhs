@@ -22,12 +22,12 @@ import IDLSyn
 importLib :: String -> IO Defn
 importLib nm = return (Pragma ("importLib: type library reader not compiled in. " ++ nm))
 #else
-import System.Win32.HDirect.HDirect
+import System.Win32.Com.HDirect.HDirect
 import System.Win32.Com         hiding (GUID)
-import qualified System.Win32.Com ( GUID )
+import qualified System.Win32.Com as Com
 import System.Win32.Com.Base    ( lOCALE_USER_DEFAULT )
 import System.Win32.Com.Automation  hiding (GUID,DISPID, Member)
-import TypeLib
+import System.Win32.Com.Automation.TypeLib
 
 import BasicTypes
 import Literal
@@ -35,6 +35,10 @@ import Opts
 import IDLUtils hiding ( noAttrs )
 import Utils ( notNull )
 import Foreign.Ptr
+
+import qualified Control.Exception as CE
+import Data.IORef
+import System.IO.Unsafe
 
 #ifdef DEBUG
 
@@ -45,13 +49,14 @@ import PpIDLSyn ( showIDL, ppType )
 import System.IO
 import Data.Word ( Word32 )
 import Data.Int
-import NumExts   ( floatToDouble )
 
--- import IO
 import Data.Bits
 import Control.Monad ( when )
 import Data.List
 import Data.Maybe    ( catMaybes )
+
+catch :: IO a -> (CE.SomeException -> IO a) -> IO a
+catch = CE.catch
 
 \end{code}
 
@@ -986,7 +991,7 @@ readParam iKind name level elemDesc typeinfo = do
                   return (Just (iLit v))
                VT_R4     -> do
                   v <- readVarFloat var
-                  return (Just (FloatingLit (show v, floatToDouble v)))
+                  return (Just (FloatingLit (show v, realToFrac v)))
                VT_R8     -> do
                   v <- readVarDouble var
                   return (Just (FloatingLit (show v,v)))

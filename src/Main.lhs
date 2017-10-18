@@ -48,10 +48,10 @@ import Env ( newEnv, addListToEnv_C )
 import Control.Exception
 import System.Time
 
-#ifdef TYPELIBS
+#ifdef SUPPORT_TYPELIBS
 import TLBWriter
 import ImportLib
-import Com   ( coRun )
+import System.Win32.Com   ( coRun )
 #endif
 
 #ifdef USE_REGISTRY
