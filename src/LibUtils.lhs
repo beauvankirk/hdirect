@@ -298,7 +298,7 @@ foreignLib = Just "Foreign"
 arrayLib   = Just "Data.Array"
 
 stdDispatchLib, wStringLib, jniLib, orbLib, safeArrayLib :: Maybe String
-stdDispatchLib = Just "StdDispatch"
+stdDispatchLib = Just "System.Win32.Com.Server.StdDispatch"
 wStringLib = Just "System.Win32.HDirect.WideString"
 safeArrayLib = Just "System.Win32.Com.Automation.SafeArray"
 
@@ -328,7 +328,7 @@ mkForeignObj, nullIPointer, groundInterface :: QualName
 -- since ghc-4.08.1's Foreign.makeForeignObj doesn't quite work,
 -- we rely on the FO creator in the HDirect support libs instead.
 --mkForeignObj = mkQualName foreignLib "makeForeignObj"
-mkForeignObj = mkQualName (Just "Pointer") "makeFO"
+mkForeignObj = mkQualName (Just "System.Win32.Com.HDirect.Pointer") "makeFO"
 
 nullIPointer = mkQualName comLib "interfaceNULL"
 
