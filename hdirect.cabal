@@ -111,7 +111,6 @@ Executable hdirect
         LexM
         LibUtils
         Literal
-        Main
         MarshallAbstract
         MarshallAuto
         MarshallCore
