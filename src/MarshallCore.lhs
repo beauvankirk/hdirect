@@ -184,6 +184,7 @@ toHaskellTy isGround ty =
                         else
                            ctxtTyApp (ctxtClass variantClass [t]) t
              | otherwise           -> t
+   Name nm _ _ _ (Just n) _ -> toHaskellTy isGround n
    Name nm _ md _ _ _ -> tyQConst (fmap mkHaskellTyConName md) (mkHaskellTyConName nm)
    SafeArray t 
      | isGround  -> mkTyConst sAFEARRAY
