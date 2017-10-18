@@ -359,7 +359,6 @@ localiseTypes ds
              [x] | x `notElem` allTD_Names -> Just x -- only interested if it was used at a
                                                      -- a non typedef-site (=> in an interface).
              _ -> Nothing
-       isOfInterest _ _   = Nothing
 
     useEnv :: Env String   {- used type name -}
                   [String] {- names of decls that uses type -}
@@ -1924,8 +1923,6 @@ sizeAndAlignModulus mb_pack ty =
     Name nm _ _ _ Nothing _  -> let msg = error ("sizeAndAlignModulus: "++nm) in (msg, msg)
     Fixed{}           -> (undefined, undefined)
     Sequence{}        -> (dATA_PTR_SIZE, dATA_PTR_ALIGN_MODULUS)
-    Any               -> (undefined, undefined)
-    Object            -> (dATA_PTR_SIZE, dATA_PTR_ALIGN_MODULUS)
     Iface{}           -> (dATA_PTR_SIZE, dATA_PTR_ALIGN_MODULUS)
     StablePtr{}       -> (dATA_PTR_SIZE, dATA_PTR_ALIGN_MODULUS)
 

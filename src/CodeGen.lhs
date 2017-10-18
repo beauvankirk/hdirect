@@ -405,7 +405,6 @@ cgDecl d =
    CoClass i mems           -> cgCoClass i mems
    Library i decls          -> cgLibrary i decls
    Module i ds              -> cgModule i ds
-   _                        -> return emptyDecl
 
 \end{code}
 

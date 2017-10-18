@@ -289,7 +289,6 @@ toHaskellTy isGround ty =
    UnionNon u _     -> tyConst' u
    Enum   i _ _     -> tyConst' i
    Iface{}          -> toHaskellIfaceTy ty
-   _                -> error ("toHaskellTy: "++showCore (ppType ty))
    where
     iface_ptr_ty_arg = tyVar "a"
 
@@ -570,7 +569,6 @@ toHaskellBaseTy isResult ty =
    CUnion{}         -> tyAddr
    UnionNon{}       -> tyAddr
    Enum{}           -> tyInt32
-   _                -> error ("toHaskellBaseTy: not handled" ++ showCore (ppType ty))
 
 toBaseTy :: Type -> Type
 toBaseTy ty =
