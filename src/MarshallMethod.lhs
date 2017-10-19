@@ -844,9 +844,9 @@ primDecl isObj isServer trySharing f dname mname cc res params
    | isServer  = tyPtr (uniqueTyVar "a") : param_h_tys
    | isObj     = 
        if optCom || attrs `hasAttributeWithName` "finaliser" then
-          tyAddr : tyAddr : param_h_tys
+          tyAddr : param_h_tys
        else
-          tyAddr : tyAddr : param_h_tys
+          tyAddr : param_h_tys
    | otherwise = param_h_tys
 
   (param_h_tys, _) =

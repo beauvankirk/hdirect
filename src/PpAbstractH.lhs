@@ -30,7 +30,7 @@ module PpAbstractH
 
 import PP hiding ( integer )
 import AbstractH
-import AbsHUtils ( splitFunTys, isVarPat, tyInt32 )
+import AbsHUtils ( splitFunTys, isVarPat, tyInt32, tyPtr, funTy, tyAddr )
 import Opts      ( optGreenCard, optTargetGhc, optNoQualNames
                  , optNoOutput, optNoModuleHeader, optNoImports
                  , optQualInstanceMethods, optHugs
@@ -268,11 +268,14 @@ ppHDecl (PrimCast cconv i ty has_structs args res_ty)
       ppReturnResult <> semi) <+> hsep params
  | otherwise =
    text "foreign import" <+> ppCallConv False cconv   <+> 
-   (if has_structs then text (show i) else text "\"dynamic\"") <+>
+   (if isDynamic then text (show i) else text "\"dynamic\"") <+>
    (if optUnsafeCalls then text "unsafe" else empty) <+> 
    ppName i <+> text "::" <+> ppType ty
   where
     ppLitLit x = text "``" <> x <> text "\'\'"
+    isDynamic = not has_structs
+    dty | isDynamic = tyPtr ty `funTy` ty
+        | otherwise = tyAddr `funTy` ty
 
     ty' 
      | optLongLongIsInteger = expandIntegers ty
